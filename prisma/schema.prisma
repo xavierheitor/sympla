@@ -18,7 +18,7 @@ model Empresa {
   nome String @db.VarChar(255)
 
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime   @default(now()) @updatedAt
   deletedAt DateTime?
 
   createdBy Int

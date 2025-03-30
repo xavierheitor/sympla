@@ -10,9 +10,10 @@ import {
     Link,
     useColorModeValue,
 } from '@chakra-ui/react'
-import { FiHome, FiUser, FiLogOut } from 'react-icons/fi'
+import { FiHome, FiUser, FiLogOut, FiBriefcase } from 'react-icons/fi'
 import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 
 export default function DashboardLayout({
     children,
@@ -26,6 +27,7 @@ export default function DashboardLayout({
     const menuItems = [
         { name: 'Dashboard', icon: FiHome, path: '/dashboard' },
         { name: 'Perfil', icon: FiUser, path: '/dashboard/profile' },
+        { name: 'Empresas', icon: FiBriefcase, path: '/dashboard/empresa' },
     ]
 
     return (
@@ -69,7 +71,8 @@ export default function DashboardLayout({
                     <Box px={5} mt="auto">
                         <Link
                             as={NextLink}
-                            href="/login"
+                            href='#'
+                            onClick={() => signOut()}
                             px={5}
                             py={3}
                             display="flex"
@@ -94,4 +97,4 @@ export default function DashboardLayout({
             </Box>
         </Flex>
     )
-} 
+}

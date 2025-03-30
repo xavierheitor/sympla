@@ -1,11 +1,17 @@
 // app/page.tsx
 'use client'
-import { Link } from '@chakra-ui/next-js'
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
 
 export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/dashboard');
+
+  }, [router]);
   return (
-    <Link href='/about' color='blue.400' _hover={{ color: 'blue.500' }}>
-      About
-    </Link>
+    <></>
   )
 }
