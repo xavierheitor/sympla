@@ -23,14 +23,11 @@ export default function TipoManutencaoPage() {
 
     const [editing, setEditing] = useState<TipoManutencao | null>(null)
     const [deleting, setDeleting] = useState<TipoManutencao | null>(null)
-    const [search, setSearch] = useState('')
     const toast = useToast()
 
     const { data, error, isLoading, mutate } = useSWR<TipoManutencao[]>('/api/tipoManutencao', fetchTipoManutencao)
+    const [filtered, setFiltered] = useState<TipoManutencao[]>([])
 
-    const filtered = data?.filter(item =>
-        item.nome?.toLowerCase().includes(search.toLowerCase())
-    ) || []
 
     const handleDelete = async () => {
         const result = await deleteTipoManutencao({ success: true, message: '' }, deleting?.id || 0)
@@ -47,9 +44,12 @@ export default function TipoManutencaoPage() {
         <EntityLayout title="Tipos de Manutenção" isLoading={isLoading} error={error}>
             <SearchAddRefreshBar
                 searchPlaceholder="Pesquisar tipo de manutenção"
-                onSearchChange={setSearch}
+                data={data || []}
+                searchKey="nome"
+                onFilter={setFiltered}
                 onCreate={onCreateOpen}
                 onRefresh={mutate}
+                isRefreshing={isLoading}
             />
 
             <DataTable

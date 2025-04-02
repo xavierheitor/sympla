@@ -24,12 +24,11 @@ export default function SubestacoesPage() {
 
     const [editing, setEditing] = useState<Subestacao | null>(null)
     const [deleting, setDeleting] = useState<Subestacao | null>(null)
-    const [search, setSearch] = useState('')
     const toast = useToast()
 
     const { data, error, isLoading, mutate } = useSWR<Subestacao[]>('/api/subestacoes', fetchSubestacoes)
+    const [filtered, setFiltered] = useState<Subestacao[]>([])
 
-    const filtered = data?.filter(s => s.nome.toLowerCase().includes(search.toLowerCase())) || []
 
     const handleDelete = async () => {
         const result = await deleteSubestacao({ success: true, message: '' }, deleting?.id || 0)
@@ -46,9 +45,12 @@ export default function SubestacoesPage() {
         <EntityLayout title="Subestações" isLoading={isLoading} error={error}>
             <SearchAddRefreshBar
                 searchPlaceholder="Pesquisar subestação"
-                onSearchChange={setSearch}
+                data={data || []}
+                searchKey="nome"
+                onFilter={setFiltered}
                 onCreate={onCreateOpen}
                 onRefresh={mutate}
+                isRefreshing={isLoading}
             />
 
             <DataTable

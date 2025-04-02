@@ -22,12 +22,11 @@ export default function RegionalPage() {
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
     const [editing, setEditing] = useState<Regional | null>(null)
     const [deleting, setDeleting] = useState<Regional | null>(null)
-    const [search, setSearch] = useState('')
     const toast = useToast()
 
     const { data, error, isLoading, mutate } = useSWR<Regional[]>('/api/regionais', fetchRegionais)
+    const [filtered, setFiltered] = useState<Regional[]>([])
 
-    const filtered = data?.filter(r => r.nome.toLowerCase().includes(search.toLowerCase())) || []
 
     const handleDelete = async () => {
         const result = await deleteRegional({ success: true, message: '' }, deleting?.id || 0)
@@ -44,9 +43,12 @@ export default function RegionalPage() {
         <EntityLayout title="Regionais" isLoading={isLoading} error={error}>
             <SearchAddRefreshBar
                 searchPlaceholder="Pesquisar regional"
-                onSearchChange={setSearch}
+                data={data || []}
+                searchKey="nome"
+                onFilter={setFiltered}
                 onCreate={onCreateOpen}
                 onRefresh={mutate}
+                isRefreshing={isLoading}
             />
             <DataTable
                 data={filtered.map(r => ({ ...r, id: r.id || 0 }))}

@@ -23,12 +23,11 @@ export default function EmpresaPage() {
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
     const [editing, setEditing] = useState<Empresa | null>(null)
     const [deleting, setDeleting] = useState<Empresa | null>(null)
-    const [search, setSearch] = useState('')
     const toast = useToast()
 
     const { data, error, isLoading, mutate } = useSWR<Empresa[]>('/api/empresas', fetchEmpresas)
+    const [filtered, setFiltered] = useState<Empresa[]>([])
 
-    const filtered = data?.filter(e => e.nome.toLowerCase().includes(search.toLowerCase())) || []
 
     const handleDelete = async () => {
         const result = await deleteEmpresa({ success: true, message: '' }, deleting?.id || 0)
@@ -44,10 +43,13 @@ export default function EmpresaPage() {
     return (
         <EntityLayout title="Empresas" isLoading={isLoading} error={error}>
             <SearchAddRefreshBar
-                searchPlaceholder="Pesquisar empresa"
-                onSearchChange={setSearch}
+                searchPlaceholder="Pesquisar Empresa"
+                data={data || []}
+                searchKey="nome"
+                onFilter={setFiltered}
                 onCreate={onCreateOpen}
                 onRefresh={mutate}
+                isRefreshing={isLoading}
             />
 
             <DataTable
