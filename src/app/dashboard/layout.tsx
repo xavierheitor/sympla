@@ -29,6 +29,7 @@ export default function DashboardLayout({
         { name: 'Perfil', icon: FiUser, path: '/dashboard/profile' },
         { name: 'Empresas', icon: FiBriefcase, path: '/dashboard/empresa' },
         { name: 'Regionais', icon: FiBriefcase, path: '/dashboard/regional' },
+        { name: 'Subestações', icon: FiBriefcase, path: '/dashboard/subestacao' },
     ]
 
     return (

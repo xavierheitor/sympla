@@ -91,9 +91,7 @@ export default function EmpresaPage() {
             <Box bg="white" p={6} rounded="lg" shadow="base">
                 <HStack justify="space-between" mb={4}>
                     <Input placeholder="Pesquisar empresa" onChange={(e) => setSearch(e.target.value)} />
-                    <Button leftIcon={<FiPlus />} colorScheme="blue" onClick={onCreateOpen}>
-                        Nova Empresa
-                    </Button>
+                    <Button leftIcon={<FiPlus />} colorScheme="blue" onClick={onCreateOpen} />
                     <Button leftIcon={<FiRefreshCcw />} colorScheme="blue" onClick={() => reload()} />
                 </HStack>
 
