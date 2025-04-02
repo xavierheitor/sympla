@@ -1,7 +1,7 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
 import { fonts } from './fonts'
-import { Providers } from './providers';
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -14,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR" className={fonts.rubik.variable}>
-      <body >
+    <html lang="pt-BR">
+      <body className={fonts.rubik.variable}>
         <Providers>
           {children}
         </Providers>
