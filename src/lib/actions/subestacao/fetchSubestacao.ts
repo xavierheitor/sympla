@@ -15,25 +15,30 @@ export async function fetchSubestacoes(): Promise<Subestacao[]> {
   }
 
   logger.info(`Buscando subestações para o usuário id: ${session.userId}`)
+  try {
 
-  const data = await prisma.subestacoes.findMany({
-    where: { deletedAt: null },
-    include: { regional: true },
-    orderBy: { nome: 'asc' },
-  })
+    const data = await prisma.subestacoes.findMany({
+      where: { deletedAt: null },
+      include: { regional: true },
+      orderBy: { nome: 'asc' },
+    })
 
-  logger.info(`Subestações encontradas: ${data.length} para o usuário id: ${session.userId}`)
+    logger.info(`Subestações encontradas: ${data.length} para o usuário id: ${session.userId}`)
 
-  return data.map(subestacao => ({
-    ...subestacao,
-    createdAt: subestacao.createdAt.toISOString(),
-    updatedAt: subestacao.updatedAt.toISOString(),
-    deletedAt: subestacao.deletedAt?.toISOString() || null,
-    regional: {
-      ...subestacao.regional,
-      createdAt: subestacao.regional.createdAt.toISOString(),
-      updatedAt: subestacao.regional.updatedAt.toISOString(),
-      deletedAt: subestacao.regional.deletedAt?.toISOString() || null
-    }
-  }))
+    return data.map(subestacao => ({
+      ...subestacao,
+      createdAt: subestacao.createdAt.toISOString(),
+      updatedAt: subestacao.updatedAt.toISOString(),
+      deletedAt: subestacao.deletedAt?.toISOString() || null,
+      regional: {
+        ...subestacao.regional,
+        createdAt: subestacao.regional.createdAt.toISOString(),
+        updatedAt: subestacao.regional.updatedAt.toISOString(),
+        deletedAt: subestacao.regional.deletedAt?.toISOString() || null
+      }
+    }))
+  } catch (error) {
+    logger.error(`Erro ao buscar subestações para o usuário id: ${session.userId}`, error)
+    return []
+  }
 }

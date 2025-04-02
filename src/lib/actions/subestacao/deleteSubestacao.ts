@@ -7,6 +7,12 @@ import { logger } from '@/lib/common/logger'
 import { verifySession } from '@/lib/common/server/session'
 import { ActionResult } from '@/lib/definitions/default/ActionResult'
 
+/**
+ * Deleta uma subestação
+ * @param _ - O estado do formulário
+ * @param id - O id da subestação
+ * @returns O resultado da ação
+ */
 export async function deleteSubestacao(_: unknown, id: number): Promise<ActionResult> {
     const session = await verifySession()
     if (!session) {

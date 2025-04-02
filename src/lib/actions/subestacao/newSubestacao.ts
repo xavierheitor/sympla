@@ -8,6 +8,13 @@ import { logger } from '@/lib/common/logger'
 import { FormState } from '@/lib/definitions/default/FormState'
 import { CategoriaSubestacao, PropriedadeSubestacao, StatusSubestacao, TensaoSubestacao, TipoSubestacao } from '@prisma/client'
 
+
+/**
+ * Cria uma nova subestação
+ * @param formState - O estado do formulário
+ * @param formData - Os dados do formulário
+ * @returns O resultado da ação
+ */
 export async function newSubestacao(
     formState: FormState,
     formData: FormData

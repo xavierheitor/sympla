@@ -31,6 +31,7 @@ export default function DashboardLayout({
         { name: 'Regionais', icon: FiBriefcase, path: '/dashboard/regional' },
         { name: 'Subestações', icon: FiBriefcase, path: '/dashboard/subestacao' },
         { name: 'Equipamentos', icon: FiBriefcase, path: '/dashboard/equipamento' },
+        { name: 'Tipos de Manutenção', icon: FiBriefcase, path: '/dashboard/tipoManutencao' },
     ]
 
     return (

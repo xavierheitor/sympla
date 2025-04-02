@@ -8,6 +8,13 @@ import { logger } from '@/lib/common/logger'
 import { FormState } from '@/lib/definitions/default/FormState'
 import { CategoriaSubestacao, PropriedadeSubestacao, StatusSubestacao, TensaoSubestacao, TipoSubestacao } from '@prisma/client'
 
+
+/**
+ * Edita uma subestação
+ * @param formState - O estado do formulário
+ * @param formData - Os dados do formulário
+ * @returns O resultado da ação
+ */
 export async function editSubestacao(
     formState: FormState,
     formData: FormData
@@ -59,6 +66,7 @@ export async function editSubestacao(
                 status: validated.data.status as StatusSubestacao,
                 regionalId: validated.data.regionalId,
                 updatedBy: session.userId,
+                updatedAt: new Date(),
             },
         })
 
