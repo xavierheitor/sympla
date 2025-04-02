@@ -30,6 +30,7 @@ export default function DashboardLayout({
         { name: 'Empresas', icon: FiBriefcase, path: '/dashboard/empresa' },
         { name: 'Regionais', icon: FiBriefcase, path: '/dashboard/regional' },
         { name: 'Subestações', icon: FiBriefcase, path: '/dashboard/subestacao' },
+        { name: 'Equipamentos', icon: FiBriefcase, path: '/dashboard/equipamento' },
     ]
 
     return (
