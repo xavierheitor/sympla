@@ -54,9 +54,6 @@ export async function deleteEmpresa(
         return {
             success: false,
             message: "Erro ao remover empresa",
-            errors: {
-                nome: ["Erro ao remover empresa: " + error],
-            },
         }
     }
 }

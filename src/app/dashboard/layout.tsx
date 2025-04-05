@@ -33,6 +33,7 @@ export default function DashboardLayout({
         { name: 'Equipamentos', icon: FiBriefcase, path: '/dashboard/equipamento' },
         { name: 'Tipos de Manutenção', icon: FiBriefcase, path: '/dashboard/tipoManutencao' },
         { name: 'KPI', icon: FiBriefcase, path: '/dashboard/kpi' },
+        { name: 'Grupos de Defeito', icon: FiBriefcase, path: '/dashboard/grupoDeDefeito' },
     ]
 
     return (

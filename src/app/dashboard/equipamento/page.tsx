@@ -28,9 +28,7 @@ export default function EquipamentoPage() {
 
     const { data, error, isLoading, mutate } = useSWR<Equipamento[]>('/api/equipamentos', fetchEquipamentos)
 
-    const filtered = data?.filter((item) =>
-        item.nome.toLowerCase().includes(search.toLowerCase())
-    ) || []
+    const [filtered, setFiltered] = useState<Equipamento[]>([])
 
     const handleDelete = async () => {
         const result = await deleteEquipamento({ success: true, message: '' }, deleting?.id || 0)
@@ -46,10 +44,13 @@ export default function EquipamentoPage() {
     return (
         <EntityLayout title="Equipamentos" isLoading={isLoading} error={error}>
             <SearchAddRefreshBar
-                searchPlaceholder="Pesquisar equipamento"
-                onSearchChange={setSearch}
+                searchPlaceholder="Pesquisar Empresa"
+                data={data || []}
+                searchKey="nome"
+                onFilter={setFiltered}
                 onCreate={onCreateOpen}
                 onRefresh={mutate}
+                isRefreshing={isLoading}
             />
 
             <DataTable

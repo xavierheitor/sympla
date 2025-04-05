@@ -240,6 +240,7 @@ model GrupoDeDefeitos {
 
 model GrupoDeDefeitosEquipamento {
   id                Int             @id @default(autoincrement())
+
   grupoDeDefeitosId Int
   grupoDeDefeitos   GrupoDeDefeitos @relation(fields: [grupoDeDefeitosId], references: [id], onDelete: Cascade)
 

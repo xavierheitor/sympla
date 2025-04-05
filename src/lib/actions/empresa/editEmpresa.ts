@@ -78,9 +78,6 @@ export async function editEmpresa(
         return {
             success: false,
             message: "Erro ao atualizar empresa",
-            errors: {
-                nome: ["Erro ao atualizar empresa: " + error],
-            },
         }
     }
 }

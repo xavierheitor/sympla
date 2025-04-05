@@ -56,7 +56,7 @@ export async function newEmpresa(
             data: {
                 nome: nome,
                 // cnpj: cnpj,
-                createdBy: 1, // Exemplo: campo obrigatório
+                createdBy: session.userId, // Exemplo: campo obrigatório
             },
         })
         logger.info(`Empresa criada com sucesso: ${empresa.id} por usuario id: ${session.userId}`);
@@ -73,9 +73,6 @@ export async function newEmpresa(
         return {
             success: false,
             message: "Erro ao criar empresa",
-            errors: {
-                nome: ["Erro ao criar empresa: " + error],
-            },
         }
     }
 }
