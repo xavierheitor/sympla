@@ -2,7 +2,6 @@
 
 import { fetchGrupoDeDefeito } from "@/lib/actions/grupoDeDefeito/fetchGrupoDeDefeito";
 import { editGrupoDefeitoEquipamento } from "@/lib/actions/grupoDefeitoEquipamento/editGrupoDefeitoEquipamento";
-import { fetchGrupoDefeitoEquipamento } from "@/lib/actions/grupoDefeitoEquipamento/fetchGrupoDefeitoEquipamento";
 import { newGrupoDefeitoEquipamento } from "@/lib/actions/grupoDefeitoEquipamento/newGrupoDefeitoEquipamento";
 import InputField from "@/lib/components/InputField";
 import { ActionResult } from "@/lib/definitions/default/ActionResult";
@@ -28,7 +27,7 @@ export default function GrupoDefeitoEquipamentoForm({ grupoDefeitoEquipamento, o
     const [loading, setLoading] = useState(false)
     const [serverError, setServerError] = useState<string | null>(null)
 
-    const { data: gruposDeDefeito, error, isLoading } = useSWR<GrupoDeDefeito[]>('/api/grupoDefeitoEquipamento', fetchGrupoDeDefeito)
+    const { data: gruposDeDefeito, error, isLoading } = useSWR<GrupoDeDefeito[]>('/api/grupoDefeitos', fetchGrupoDeDefeito)
 
     useEffect(() => {
         if (grupoDefeitoEquipamento) {

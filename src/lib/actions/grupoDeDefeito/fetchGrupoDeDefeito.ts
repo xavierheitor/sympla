@@ -19,7 +19,7 @@ export async function fetchGrupoDeDefeito(): Promise<GrupoDeDefeito[]>{
     }
 
     //**Loga a ação *
-    logger.info(`Buscando gruops de defeito por usuário id: ${session.userId}`);
+    logger.info(`Buscando grupos de defeito por usuário id: ${session.userId}`);
 
     //**Busca todos os grupos de defeito */
     try{

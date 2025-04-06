@@ -3,7 +3,7 @@ CREATE TABLE `empresas` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(255) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `deletedAt` DATETIME(3) NULL,
     `createdBy` INTEGER NOT NULL,
     `updatedBy` INTEGER NULL,
@@ -165,7 +165,7 @@ CREATE TABLE `grupos_defeitos_equipamentos` (
 CREATE TABLE `subgrupos_defeitos` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(255) NOT NULL,
-    `grupoDeDefeitosId` INTEGER NOT NULL,
+    `grupoDefeitoEquipamentoId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -173,8 +173,8 @@ CREATE TABLE `subgrupos_defeitos` (
     `updatedBy` INTEGER NULL,
     `deletedBy` INTEGER NULL,
 
-    INDEX `subgrupos_defeitos_grupoDeDefeitosId_idx`(`grupoDeDefeitosId`),
-    UNIQUE INDEX `subgrupos_defeitos_nome_grupoDeDefeitosId_key`(`nome`, `grupoDeDefeitosId`),
+    INDEX `subgrupos_defeitos_grupoDefeitoEquipamentoId_idx`(`grupoDefeitoEquipamentoId`),
+    UNIQUE INDEX `subgrupos_defeitos_nome_grupoDefeitoEquipamentoId_key`(`nome`, `grupoDefeitoEquipamentoId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -190,8 +190,8 @@ CREATE TABLE `defeitos` (
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
 
-    INDEX `defeitos_subGrupoDefeitosId_idx`(`subGrupoDefeitosId`),
     UNIQUE INDEX `defeitos_codigo_key`(`codigo`),
+    INDEX `defeitos_subGrupoDefeitosId_idx`(`subGrupoDefeitosId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -213,12 +213,12 @@ CREATE TABLE `notas_plano_manutencao` (
     `updatedBy` INTEGER NULL,
     `deletedBy` INTEGER NULL,
 
+    UNIQUE INDEX `notas_plano_manutencao_numeroSAP_key`(`numeroSAP`),
     INDEX `notas_plano_manutencao_subestacaoId_idx`(`subestacaoId`),
     INDEX `notas_plano_manutencao_equipamentoId_idx`(`equipamentoId`),
     INDEX `notas_plano_manutencao_tipoManutencaoId_idx`(`tipoManutencaoId`),
     INDEX `notas_plano_manutencao_kpiId_idx`(`kpiId`),
     INDEX `notas_plano_manutencao_status_idx`(`status`),
-    UNIQUE INDEX `notas_plano_manutencao_numeroSAP_key`(`numeroSAP`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -298,31 +298,31 @@ ALTER TABLE `equipamentos` ADD CONSTRAINT `equipamentos_subestacaoId_fkey` FOREI
 ALTER TABLE `kpis` ADD CONSTRAINT `kpis_tipoManutencaoId_fkey` FOREIGN KEY (`tipoManutencaoId`) REFERENCES `tipos_manutencao`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `anomalias` ADD CONSTRAINT `anomalias_equipamentoId_fkey` FOREIGN KEY (`equipamentoId`) REFERENCES `equipamentos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `anomalias` ADD CONSTRAINT `anomalias_defeitoId_fkey` FOREIGN KEY (`defeitoId`) REFERENCES `defeitos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `anomalias` ADD CONSTRAINT `anomalias_defeitoId_fkey` FOREIGN KEY (`defeitoId`) REFERENCES `defeitos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `anomalias` ADD CONSTRAINT `anomalias_equipamentoId_fkey` FOREIGN KEY (`equipamentoId`) REFERENCES `equipamentos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `grupos_defeitos_equipamentos` ADD CONSTRAINT `grupos_defeitos_equipamentos_grupoDeDefeitosId_fkey` FOREIGN KEY (`grupoDeDefeitosId`) REFERENCES `grupos_defeitos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `subgrupos_defeitos` ADD CONSTRAINT `subgrupos_defeitos_grupoDeDefeitosId_fkey` FOREIGN KEY (`grupoDeDefeitosId`) REFERENCES `grupos_defeitos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `subgrupos_defeitos` ADD CONSTRAINT `subgrupos_defeitos_grupoDefeitoEquipamentoId_fkey` FOREIGN KEY (`grupoDefeitoEquipamentoId`) REFERENCES `grupos_defeitos_equipamentos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `defeitos` ADD CONSTRAINT `defeitos_subGrupoDefeitosId_fkey` FOREIGN KEY (`subGrupoDefeitosId`) REFERENCES `subgrupos_defeitos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `notas_plano_manutencao` ADD CONSTRAINT `notas_plano_manutencao_subestacaoId_fkey` FOREIGN KEY (`subestacaoId`) REFERENCES `subestacoes`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `notas_plano_manutencao` ADD CONSTRAINT `notas_plano_manutencao_equipamentoId_fkey` FOREIGN KEY (`equipamentoId`) REFERENCES `equipamentos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `notas_plano_manutencao` ADD CONSTRAINT `notas_plano_manutencao_tipoManutencaoId_fkey` FOREIGN KEY (`tipoManutencaoId`) REFERENCES `tipos_manutencao`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `notas_plano_manutencao` ADD CONSTRAINT `notas_plano_manutencao_kpiId_fkey` FOREIGN KEY (`kpiId`) REFERENCES `kpis`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `notas_plano_manutencao` ADD CONSTRAINT `notas_plano_manutencao_kpiId_fkey` FOREIGN KEY (`kpiId`) REFERENCES `kpis`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `notas_plano_manutencao` ADD CONSTRAINT `notas_plano_manutencao_subestacaoId_fkey` FOREIGN KEY (`subestacaoId`) REFERENCES `subestacoes`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `notas_plano_manutencao` ADD CONSTRAINT `notas_plano_manutencao_tipoManutencaoId_fkey` FOREIGN KEY (`tipoManutencaoId`) REFERENCES `tipos_manutencao`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `contas` ADD CONSTRAINT `contas_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `usuarios`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
