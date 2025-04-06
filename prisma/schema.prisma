@@ -175,6 +175,7 @@ model GrupoDeDefeitosEquipamento {
   @@index([equipamento])
   @@map("grupos_defeitos_equipamentos")
   SubGrupoDefeitos SubGrupoDefeitos[]
+  Defeitos Defeitos[]
 }
 
 model SubGrupoDefeitos {
@@ -201,16 +202,25 @@ model Defeitos {
   id                 Int               @id @default(autoincrement())
   nome               String            @db.VarChar(255)
   descricao          String            @db.Text
-  codigo             String            @unique @db.VarChar(50)
+  codigoSAP             String            @unique @db.VarChar(50)
   prioridade         PrioridadeDefeito
+
   subGrupoDefeitosId Int
+  subGrupoDefeitos   SubGrupoDefeitos  @relation(fields: [subGrupoDefeitosId], references: [id], onDelete: Cascade)
+
+  grupoDefeitosEquipamentoId Int
+  grupoDefeitosEquipamento   GrupoDeDefeitosEquipamento @relation(fields: [grupoDefeitosEquipamentoId], references: [id], onDelete: Cascade)
+
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
   deletedAt          DateTime?
+  createdBy          Int
+  updatedBy          Int?
+  deletedBy          Int?
   Anomalias          Anomalias[]
-  subGrupoDefeitos   SubGrupoDefeitos  @relation(fields: [subGrupoDefeitosId], references: [id], onDelete: Cascade)
 
   @@index([subGrupoDefeitosId])
+  @@index([nome])
   @@map("defeitos")
 }
 
