@@ -14,6 +14,7 @@ export interface NotaPlanoManutencao {
   id?: number;
   nome: string;
   numeroSAP?: string;
+  dataLimiteExecucao: Date;
   status: StatusNota;
   tipoNota: TipoNota;
   subestacaoId: number;

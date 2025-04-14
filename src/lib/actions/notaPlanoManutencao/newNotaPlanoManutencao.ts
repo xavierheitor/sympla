@@ -39,6 +39,7 @@ export async function newNotaPlanoManutencao(
     equipamentoId: Number(formData.get("equipamentoId")),
     tipoManutencaoId: Number(formData.get("tipoManutencaoId")),
     kpiId: Number(formData.get("kpiId")),
+    dataLimiteExecucao: new Date(formData.get("dataLimiteExecucao") as string),
   };
 
   const validated = NotaPlanoManutencaoFormSchema.safeParse(data);
@@ -58,13 +59,14 @@ export async function newNotaPlanoManutencao(
       data: {
         nome: validated.data.nome,
         numeroSAP: validated.data.numeroSAP || "",
+        dataLimiteExecucao: validated.data.dataLimiteExecucao,
         status: validated.data.status as StatusNota,
         tipoNota: validated.data.tipoNota as TipoNota,
         subestacaoId: validated.data.subestacaoId,
         equipamentoId: validated.data.equipamentoId,
         tipoManutencaoId: validated.data.tipoManutencaoId,
         kpiId: validated.data.kpiId,
-
+        createdAt: new Date(),
         createdBy: session.userId,
       },
     });

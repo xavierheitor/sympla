@@ -12,7 +12,6 @@ import {
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetchKpis } from "@/lib/actions/kpi/fetchKpis";
-import { fetchNotasPlanoManutencao } from "@/lib/actions/notaPlanoManutencao/fetchNotasPlanoManutencao";
 import { fetchTipoManutencao } from "@/lib/actions/tipoManutencao/fetchTipoManutencao";
 import { fetchSubestacoes } from "@/lib/actions/subestacao/fetchSubestacao";
 import { editNotaPlanoManutencao } from "@/lib/actions/notaPlanoManutencao/editNotaPlanoManutencao";
@@ -129,6 +128,15 @@ export default function NotaPlanoManutencaoForm({
           <Input
             value={String(formData["numeroSAP"] || "")}
             onChange={(e) => handleChange("numeroSAP", e.target.value)}
+          />
+        </FormControl>
+
+        <FormControl isInvalid={!!errors["dataLimiteExecucao"]}>
+          <FormLabel>Data Limite de Execução</FormLabel>
+          <Input
+            type="date"
+            value={String(formData["dataLimiteExecucao"] || "")}
+            onChange={(e) => handleChange("dataLimiteExecucao", e.target.value)}
           />
         </FormControl>
 

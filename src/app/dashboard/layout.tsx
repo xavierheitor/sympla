@@ -70,13 +70,13 @@ export default function DashboardLayout({
         borderColor={borderColor}
         py={5}
       >
-        <VStack spacing={8} align="stretch">
+        <VStack spacing={8} align="stretch" height="100%" overflow="scroll">
           <Box px={5}>
             <Text fontSize="xl" fontWeight="bold">
               Dashboard
             </Text>
           </Box>
-          <VStack spacing={1} align="stretch">
+          <VStack spacing={1} align="stretch" >
             {menuItems.map((item) => (
               <Link
                 key={item.path}

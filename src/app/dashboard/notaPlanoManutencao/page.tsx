@@ -83,6 +83,15 @@ export default function NotaPMPage() {
           { key: "nome", label: "Nome" },
           { key: "numeroSAP", label: "Numero SAP" },
           { key: "status", label: "Status" },
+          {
+            key: "dataLimiteExecucao",
+            label: "Data Limite de Execução",
+            render: (item) =>
+              item.dataLimiteExecucao.toLocaleDateString("pt-BR", {
+                month: "2-digit",
+                year: "numeric",
+              }),
+          },
         ]}
         onEdit={(item) => {
           setEditing(item);
