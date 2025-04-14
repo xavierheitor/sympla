@@ -159,39 +159,39 @@ model GrupoDeDefeitos {
 }
 
 model GrupoDeDefeitosEquipamento {
-  id                Int             @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   grupoDeDefeitosId Int
-  equipamento       String          @db.VarChar(255)
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  equipamento       String             @db.VarChar(255)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
   deletedAt         DateTime?
   createdBy         Int
   updatedBy         Int?
   deletedBy         Int?
-  grupoDeDefeitos   GrupoDeDefeitos @relation(fields: [grupoDeDefeitosId], references: [id], onDelete: Cascade)
+  grupoDeDefeitos   GrupoDeDefeitos    @relation(fields: [grupoDeDefeitosId], references: [id], onDelete: Cascade)
+  SubGrupoDefeitos  SubGrupoDefeitos[]
+  Defeitos          Defeitos[]
 
   @@unique([grupoDeDefeitosId, equipamento])
   @@index([grupoDeDefeitosId])
   @@index([equipamento])
   @@map("grupos_defeitos_equipamentos")
-  SubGrupoDefeitos SubGrupoDefeitos[]
-  Defeitos Defeitos[]
 }
 
 model SubGrupoDefeitos {
-  id                Int             @id @default(autoincrement())
-  nome              String          @db.VarChar(255)
+  id   Int    @id @default(autoincrement())
+  nome String @db.VarChar(255)
 
   grupoDefeitoEquipamentoId Int
-  grupoDefeitoEquipamento GrupoDeDefeitosEquipamento @relation(fields: [grupoDefeitoEquipamentoId], references: [id], onDelete: Cascade)
+  grupoDefeitoEquipamento   GrupoDeDefeitosEquipamento @relation(fields: [grupoDefeitoEquipamentoId], references: [id], onDelete: Cascade)
 
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  deletedAt         DateTime?
-  createdBy         Int
-  updatedBy         Int?
-  deletedBy         Int?
-  Defeitos          Defeitos[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+  createdBy Int
+  updatedBy Int?
+  deletedBy Int?
+  Defeitos  Defeitos[]
 
   @@unique([nome, grupoDefeitoEquipamentoId])
   @@index([grupoDefeitoEquipamentoId])
@@ -199,25 +199,25 @@ model SubGrupoDefeitos {
 }
 
 model Defeitos {
-  id                 Int               @id @default(autoincrement())
-  nome               String            @db.VarChar(255)
-  descricao          String            @db.Text
-  codigoSAP             String            @unique @db.VarChar(50)
-  prioridade         PrioridadeDefeito
+  id         Int               @id @default(autoincrement())
+  nome       String            @db.VarChar(255)
+  descricao  String            @db.Text
+  codigoSAP  String            @unique @db.VarChar(50)
+  prioridade PrioridadeDefeito
 
   subGrupoDefeitosId Int
-  subGrupoDefeitos   SubGrupoDefeitos  @relation(fields: [subGrupoDefeitosId], references: [id], onDelete: Cascade)
+  subGrupoDefeitos   SubGrupoDefeitos @relation(fields: [subGrupoDefeitosId], references: [id], onDelete: Cascade)
 
   grupoDefeitosEquipamentoId Int
   grupoDefeitosEquipamento   GrupoDeDefeitosEquipamento @relation(fields: [grupoDefeitosEquipamentoId], references: [id], onDelete: Cascade)
 
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @updatedAt
-  deletedAt          DateTime?
-  createdBy          Int
-  updatedBy          Int?
-  deletedBy          Int?
-  Anomalias          Anomalias[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  deletedAt DateTime?
+  createdBy Int
+  updatedBy Int?
+  deletedBy Int?
+  Anomalias Anomalias[]
 
   @@index([subGrupoDefeitosId])
   @@index([nome])
@@ -225,25 +225,29 @@ model Defeitos {
 }
 
 model NotaPlanoManutencao {
-  id               Int            @id @default(autoincrement())
-  nome             String         @db.VarChar(255)
-  numeroSAP        String         @unique @db.VarChar(50)
-  status           StatusNota     @default(RASCUNHO)
+  id               Int        @id @default(autoincrement())
+  nome             String     @db.VarChar(255)
+  numeroSAP        String     @unique @db.VarChar(50)
+  status           StatusNota @default(PENDENTE)
   tipoNota         TipoNota
   subestacaoId     Int
   equipamentoId    Int
   tipoManutencaoId Int
   kpiId            Int
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  deletedAt        DateTime?
-  createdBy        Int
-  updatedBy        Int?
-  deletedBy        Int?
-  equipamento      Equipamentos   @relation(fields: [equipamentoId], references: [id], onDelete: Cascade)
-  kpi              Kpi            @relation(fields: [kpiId], references: [id], onDelete: Cascade)
-  subestacao       Subestacoes    @relation(fields: [subestacaoId], references: [id], onDelete: Cascade)
-  tipoManutencao   TipoManutencao @relation(fields: [tipoManutencaoId], references: [id], onDelete: Cascade)
+
+  dataLimiteExecucao DateTime 
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  createdBy Int
+  updatedBy Int?
+  deletedBy Int?
+
+  equipamento    Equipamentos   @relation(fields: [equipamentoId], references: [id], onDelete: Cascade)
+  kpi            Kpi            @relation(fields: [kpiId], references: [id], onDelete: Cascade)
+  subestacao     Subestacoes    @relation(fields: [subestacaoId], references: [id], onDelete: Cascade)
+  tipoManutencao TipoManutencao @relation(fields: [tipoManutencaoId], references: [id], onDelete: Cascade)
 
   @@index([subestacaoId])
   @@index([equipamentoId])
@@ -345,6 +349,7 @@ enum StatusSubestacao {
 enum TipoNota {
   AA
   TS
+  RSF
 }
 
 enum StatusAnomalia {
@@ -363,9 +368,8 @@ enum PrioridadeDefeito {
 }
 
 enum StatusNota {
-  RASCUNHO
-  EM_APROVACAO
-  APROVADA
-  REJEITADA
-  CANCELADA
+  PENDENTE
+  PROGRAMADO
+  EXECUTADO
+  BAIXADO_NO_SAP
 }
